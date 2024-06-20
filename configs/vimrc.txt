@@ -1,0 +1,2 @@
+:nnoremap <F2> "=strftime("%F %T")<CR>P
+:inoremap <F2> <C-R>=strftime("%F %T")<CR>

